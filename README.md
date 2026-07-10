@@ -12,8 +12,7 @@
 </p>
 
 <p align="center">
-  <!-- VIDEO PLACEHOLDER: Add demo video here -->
-  <em>Demo video coming soon</em>
+  <img src="./Img/SRU_ODIN1.gif" alt="SRU Navigation Demo" width="800"/>
 </p>
 
 ---
