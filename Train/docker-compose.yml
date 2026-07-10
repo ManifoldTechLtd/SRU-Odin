@@ -1,0 +1,75 @@
+services:
+  sru-nav:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ISAAC_SIM_VERSION: "4.5.0"
+        ISAACLAB_VERSION: "v2.1.1"
+        SRU_NAV_REPO: "https://github.com/leggedrobotics/sru-navigation-sim.git"
+        SRU_NAV_REF: "main"
+        # Optional, for CN servers behind GFW. Pass via env or shell:
+        #   GITHUB_MIRROR=https://ghproxy.com/ docker compose build
+        #   HTTP_PROXY=http://host:7890 HTTPS_PROXY=http://host:7890 docker compose build
+        GITHUB_MIRROR: "${GITHUB_MIRROR:-}"
+        HTTP_PROXY: "${HTTP_PROXY:-}"
+        HTTPS_PROXY: "${HTTPS_PROXY:-}"
+        NO_PROXY: "${NO_PROXY:-}"
+        PIP_INDEX_URL: "${PIP_INDEX_URL:-}"
+        PIP_TRUSTED_HOST: "${PIP_TRUSTED_HOST:-}"
+    image: sru-nav:latest
+    container_name: sru-nav
+    runtime: nvidia
+    stdin_open: true
+    tty: true
+    network_mode: host
+    ipc: host
+    shm_size: "16gb"
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    environment:
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
+      - DISPLAY=${DISPLAY:-:0}
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+      # Attempt to avoid RTX segfault on Blackwell (sm_120) by forcing true headless
+      - OMNI_KIT_HEADLESS=1
+      # Optional: put your wandb key in a .env file next to compose
+      - WANDB_API_KEY=${WANDB_API_KEY:-}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      # X11 for GUI (optional)
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Persist Isaac Sim caches across runs
+      - isaac-cache-kit:/isaac-sim/kit/cache
+      - isaac-cache-ov:/root/.cache/ov
+      - isaac-cache-pip:/root/.cache/pip
+      - isaac-cache-gl:/root/.cache/nvidia/GLCache
+      - isaac-cache-compute:/root/.nv/ComputeCache
+      - isaac-logs:/root/.nvidia-omniverse/logs
+      - isaac-data:/root/.local/share/ov/data
+      - isaac-docs:/root/Documents
+      # Persist training outputs (logs/checkpoints)
+      - ./outputs/logs:/workspace/IsaacLab/logs
+      # Optional: live-mount the extension for development. Uncomment to use:
+      # - ./sru-navigation-sim:/workspace/IsaacLab/source/isaaclab_nav_task
+    working_dir: /workspace/IsaacLab
+    command: /bin/bash
+
+volumes:
+  isaac-cache-kit:
+  isaac-cache-ov:
+  isaac-cache-pip:
+  isaac-cache-gl:
+  isaac-cache-compute:
+  isaac-logs:
+  isaac-data:
+  isaac-docs:

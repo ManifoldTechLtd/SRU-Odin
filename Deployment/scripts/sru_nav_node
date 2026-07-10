@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+"""ROS1 entry point for the SRU navigation controller on Go2 + Odin1."""
+
+import os
+import sys
+
+import rospkg
+import rospy
+
+from sru_nav_go2.navigation_policy_node import NavigationPolicyNode
+from sru_nav_go2 import constants
+
+
+def _resolve_model_path(param_value, default_basename):
+    """Resolve a model path: absolute path if given, else look under
+    <package>/models/<default_basename>, else fall back to the original
+    sru-robot-deployment/rl_nav_controller/deployment_policies/ folder if
+    present alongside this package's workspace.
+    """
+    if param_value and os.path.isabs(param_value) and os.path.exists(param_value):
+        return param_value
+
+    rp = rospkg.RosPack()
+    try:
+        pkg_path = rp.get_path('sru_nav_go2_ros1')
+    except rospkg.ResourceNotFound:
+        pkg_path = None
+
+    candidates = []
+    if param_value:
+        candidates.append(param_value)
+    if pkg_path:
+        candidates.append(os.path.join(pkg_path, 'models', default_basename))
+        # Sibling deployment_policies folder (when sources are checked out together)
+        candidates.append(os.path.join(
+            pkg_path, '..', '..', 'sru-robot-deployment',
+            'rl_nav_controller', 'deployment_policies', default_basename))
+
+    for c in candidates:
+        if c and os.path.exists(c):
+            return os.path.abspath(c)
+
+    raise FileNotFoundError(
+        'Could not locate {} (checked: {})'.format(default_basename, candidates)
+    )
+
+
+def main():
+    rospy.init_node('sru_nav_node', anonymous=False)
+
+    # --- Topics ---------------------------------------------------------
+    depth_topic = rospy.get_param('~depth_topic', '/odin1/depth_img_competetion')
+    odom_topic = rospy.get_param('~odom_topic', '/odin1/odometry_highfreq')
+    joy_topic = rospy.get_param('~joy_topic', '/joy')
+    goal_topic = rospy.get_param('~goal_topic', '/goal_pose')
+    cmd_vel_topic = rospy.get_param('~cmd_vel_topic', '/cmd_vel')
+
+    # --- Models ---------------------------------------------------------
+    vae_param = rospy.get_param('~vae_model_path', '')
+    pol_param = rospy.get_param('~policy_model_path', '')
+    try:
+        vae_model_path = _resolve_model_path(vae_param, 'vae_encoder.onnx')
+        policy_model_path = _resolve_model_path(pol_param, 'nav_policy.onnx')
+    except FileNotFoundError as exc:
+        rospy.logerr(str(exc))
+        sys.exit(1)
+    rospy.loginfo('VAE encoder:   {}'.format(vae_model_path))
+    rospy.loginfo('Policy model:  {}'.format(policy_model_path))
+
+    # --- Numeric params -------------------------------------------------
+    min_depth = rospy.get_param('~min_depth', constants.DEFAULT_MIN_DEPTH)
+    max_depth = rospy.get_param('~max_depth', constants.DEFAULT_MAX_DEPTH)
+    control_frequency = rospy.get_param(
+        '~control_frequency', constants.DEFAULT_CONTROL_FREQUENCY)
+    policy_scale = rospy.get_param('~policy_scale', list(constants.POLICY_SCALE))
+    use_sim = rospy.get_param('~use_sim', False)
+    require_joystick = rospy.get_param('~require_joystick', True)
+
+    if not isinstance(policy_scale, (list, tuple)) or len(policy_scale) != 3:
+        rospy.logwarn('Invalid ~policy_scale, falling back to {}'.format(
+            list(constants.POLICY_SCALE)))
+        policy_scale = list(constants.POLICY_SCALE)
+
+    NavigationPolicyNode(
+        preprocess_model_path=vae_model_path,
+        policy_model_path=policy_model_path,
+        depth_topic=depth_topic,
+        odom_topic=odom_topic,
+        joy_topic=joy_topic,
+        goal_topic=goal_topic,
+        cmd_vel_topic=cmd_vel_topic,
+        min_depth=min_depth,
+        max_depth=max_depth,
+        control_frequency=control_frequency,
+        policy_scale=policy_scale,
+        use_sim=use_sim,
+        require_joystick=require_joystick,
+    )
+
+    rospy.loginfo(
+        'SRU navigation node spinning (sim={}, require_joystick={}).'
+        .format(use_sim, require_joystick))
+    rospy.spin()
+
+
+if __name__ == '__main__':
+    main()

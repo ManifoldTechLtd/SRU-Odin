@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>sru_nav_go2_ros1</name>
+  <version>0.1.0</version>
+  <description>
+    ROS1 (Noetic) port of the SRU Navigation controller for Unitree Go2 + Odin1.
+    Loads the pretrained SRU policy (ONNX) and VAE depth encoder, subscribes to
+    Odin1 depth/odom and a joystick, publishes /cmd_vel to Go2.
+  </description>
+
+  <maintainer email="user@example.com">SRU Navigation Port</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>tf2_ros</depend>
+
+  <exec_depend>joy</exec_depend>
+
+  <export>
+  </export>
+</package>

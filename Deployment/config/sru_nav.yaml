@@ -1,0 +1,37 @@
+# Runtime parameters for sru_nav_node (Go2 + Odin1).
+# Load via:  <rosparam command="load" file="$(find sru_nav_go2_ros1)/config/sru_nav.yaml"/>
+
+# ---- Topics ---------------------------------------------------------------
+depth_topic:    "/odin1/depth_img_competetion"   # sensor_msgs/Image (32FC1, meters)
+odom_topic:     "/odin1/odometry_highfreq"       # nav_msgs/Odometry @ ~400 Hz (IMU rate), frame_id=odom, child=odin1_base_link
+                                                 #   alt: /odin1/odometry @ ~10 Hz (SLAM rate, less drift but laggier)
+joy_topic:      "/joy"                           # sensor_msgs/Joy (PS5-like layout)
+goal_topic:     "/goal_pose"                     # geometry_msgs/PoseStamped
+cmd_vel_topic:  "/cmd_vel"                       # geometry_msgs/Twist (consumed by Go2 sport mode)
+
+# ---- Model files (leave empty -> auto-discover under <pkg>/models/) -------
+vae_model_path:    ""
+policy_model_path: ""
+
+# ---- Depth filter ---------------------------------------------------------
+min_depth: 0.25                                  # meters
+max_depth: 10.0                                  # meters
+
+# ---- Control --------------------------------------------------------------
+control_frequency: 5.0                           # Hz (matches training)
+# Conservative defaults for Go2 (original B2W used [1.5, 1.0, 1.0]). Tune up
+# gradually during real testing.
+policy_scale: [0.6, 0.3, 0.6]                    # [vx_max, vy_max, omega_max]
+
+# ---- Sim flag -------------------------------------------------------------
+# When true the odom twist is treated as already in the base frame.
+use_sim: false
+
+# ---- Joystick deadman -----------------------------------------------------
+# true  (default, SAFE): /cmd_vel stays 0 until a /joy publisher exists AND
+#                        axes[4] (throttle trigger) is pushed; 15 s without
+#                        /joy forces a stop. Use this on real hardware.
+# false (TESTING ONLY) : skip the deadman; cmd_vel_ratio starts at 1.0 and
+#                        the timeout check is disabled. Useful for headless
+#                        / autonomous closed-loop tests with no operator.
+require_joystick: true

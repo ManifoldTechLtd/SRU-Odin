@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+  Launch the SRU navigation controller on Unitree Go2 + Odin1.
+  Assumes the Odin1 ROS1 driver and a Go2 cmd_vel bridge are already running
+  (or will be launched separately).
+-->
+<launch>
+  <!-- ============================================================== -->
+  <!-- Top-level arguments                                              -->
+  <!-- ============================================================== -->
+  <arg name="sim"               default="false" doc="Treat odom twist as already in base frame."/>
+  <arg name="launch_joy"        default="true"  doc="Start a joy node alongside (PS5/PS4 etc.)."/>
+  <arg name="launch_static_tf"  default="true"  doc="Publish a static TF base_link->odin1_base_link."/>
+  <arg name="require_joystick"  default="true"  doc="If false, bypass the joystick deadman (TESTING ONLY)."/>
+
+  <!-- Odin1 mounting on Go2 (measure on the real platform!).
+       xyz in meters (forward, left, up). rpy in radians.
+       Default below: 25 cm forward of Go2 body center, 18 cm up, no roll/yaw,
+       ~20 deg downward pitch (matches original ZED X 0.349 rad config). -->
+  <arg name="odin1_x"     default="0.25"/>
+  <arg name="odin1_y"     default="0.0"/>
+  <arg name="odin1_z"     default="0.18"/>
+  <arg name="odin1_roll"  default="0.0"/>
+  <arg name="odin1_pitch" default="0.349"/>
+  <arg name="odin1_yaw"   default="0.0"/>
+
+  <!-- ============================================================== -->
+  <!-- Optional joy node                                                -->
+  <!-- ============================================================== -->
+  <node if="$(arg launch_joy)" pkg="joy" type="joy_node" name="joy_node" output="screen">
+    <param name="autorepeat_rate" value="50.0"/>
+    <param name="deadzone"        value="0.05"/>
+  </node>
+
+  <!-- ============================================================== -->
+  <!-- Static TF: Go2 base_link -> odin1_base_link                      -->
+  <!-- Adjust args on the real robot.                                   -->
+  <!-- ============================================================== -->
+  <node if="$(arg launch_static_tf)"
+        pkg="tf2_ros" type="static_transform_publisher"
+        name="static_tf_base_to_odin1"
+        args="$(arg odin1_x) $(arg odin1_y) $(arg odin1_z)
+              $(arg odin1_yaw) $(arg odin1_pitch) $(arg odin1_roll)
+              base_link odin1_base_link"/>
+
+  <!-- ============================================================== -->
+  <!-- SRU navigation node                                              -->
+  <!-- ============================================================== -->
+  <node pkg="sru_nav_go2_ros1" type="sru_nav_node" name="sru_nav_node"
+        output="screen" required="true">
+    <rosparam command="load" file="$(find sru_nav_go2_ros1)/config/sru_nav.yaml"/>
+    <param name="use_sim"          value="$(arg sim)"/>
+    <param name="require_joystick" value="$(arg require_joystick)"/>
+  </node>
+</launch>

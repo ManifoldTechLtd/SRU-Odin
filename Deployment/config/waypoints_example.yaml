@@ -1,0 +1,26 @@
+# Example waypoint list for scripts/waypoint_runner.py
+#
+# All waypoints are in the odometry frame (matches what /goal_pose expects).
+# z is optional; if 0 the main node substitutes the robot's current z.
+
+frame_id: odom
+
+# Arrival / timing
+arrive_threshold: 0.75      # meters (matches constants.ARRIVE_GOAL_THRESHOLD)
+settle_time: 1.5            # seconds the robot must stay within threshold
+per_goal_timeout: 60.0      # seconds before giving up on a single goal
+
+# Stuck detection (script-side; no main-node changes required)
+stuck_window: 10.0          # seconds of trailing window
+stuck_displacement: 0.10    # meters; below this -> skip current goal
+
+# Republish the same goal periodically to defend against missed messages.
+republish_interval: 5.0
+
+# Append the script-start odom pose as a final goal after the list.
+return_home: true
+
+waypoints:
+  - [3.0, 0.0, 0.0]
+  - [3.0, 2.0, 0.0]
+  - [0.0, 2.0, 0.0]

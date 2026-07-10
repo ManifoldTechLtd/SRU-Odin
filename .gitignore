@@ -1,0 +1,33 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Training outputs & models
+outputs/
+logs/
+runs/
+*.pt
+*.pth
+*.onnx
+
+# Environment secrets
+.env
+.env.local
+auth_qrcode.png
+
+# IDE
+.vscode/
+.idea/
+
+# IDE workflow configurations
+.windsurf/
+.claude/
+.qoder/
+**/.windsurf/
+**/.claude/
+**/.qoder/
+
+# OS
+.DS_Store

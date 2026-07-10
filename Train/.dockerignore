@@ -1,0 +1,14 @@
+# Keep docker build context small. mount/IsaacLab and mount/sru-navigation-sim
+# are needed by COPY in Dockerfile, so they MUST NOT be excluded.
+outputs/
+log*.txt
+auth_qrcode.png
+*.tar.gz
+*.tgz
+**/__pycache__/
+**/*.pyc
+**/.git/
+**/.gitignore
+.windsurf/
+.vscode/
+.idea/
