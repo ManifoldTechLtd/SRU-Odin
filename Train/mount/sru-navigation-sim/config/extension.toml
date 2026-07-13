@@ -1,0 +1,22 @@
+[package]
+
+# Note: Semantic Versioning is used: https://semver.org/
+version = "0.1.0"
+
+# Description
+title = "IsaacLab Navigation Extension - SRU Project"
+description = "IsaacLab task extension for SRU visual navigation with hierarchical control, maze terrain generation, and depth-based RL."
+readme = "docs/README.md"
+repository = "https://github.com/michaelfyang/sru-pytorch-spatial-learning"
+category = "robotics"
+keywords = ["robotics", "rl", "navigation", "visual", "learning", "sru", "depth", "hierarchical", "maze", "isaaclab"]
+
+[dependencies]
+"isaaclab" = {}
+"isaaclab_assets" = {}
+
+[core]
+reloadable = false
+
+[[python.module]]
+name = "isaaclab_nav_task"
