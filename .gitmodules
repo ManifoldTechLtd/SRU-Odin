@@ -1,0 +1,6 @@
+[submodule "Deployment/odin_ros_driver"]
+	path = Deployment/odin_ros_driver
+	url = https://github.com/manifoldsdk/odin_ros_driver.git
+[submodule "Train/mount/rsl_rl"]
+	path = Train/mount/rsl_rl
+	url = https://github.com/leggedrobotics/sru-navigation-learning.git
