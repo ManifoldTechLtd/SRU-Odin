@@ -1,4 +1,4 @@
-# SRU × Odin1: Mapless Navigation with Spatially-Enhanced Recurrent Memory
+# SRU × Odin: Mapless Navigation with Spatially-Enhanced Recurrent Memory
 
 <p align="center">
   <img src="./Img/logo.png" alt="SRU × Odin1 Logo" width="15%">
