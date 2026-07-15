@@ -1,7 +1,7 @@
 # SRU × Odin: Mapless Navigation with Spatially-Enhanced Recurrent Memory
 
 <p align="center">
-  <img src="./Img/logo.png" alt="SRU × Odin1 Logo" width="15%">
+  <img src="./Img/logo.png" alt="SRU × Odin1 Logo" width="20%">
 </p>
 
 <p align="center">
@@ -9,6 +9,7 @@
   <img src="https://img.shields.io/badge/Isaac%20Sim-4.5.0-76B900.svg" alt="Isaac Sim 4.5.0">
   <img src="https://img.shields.io/badge/ROS-Noetic-22314E.svg" alt="ROS Noetic">
   <img src="https://img.shields.io/badge/Sensor-Odin1-FF6F00.svg" alt="Sensor: Odin1">
+  <a href="https://b23.tv/8nKRBNw"><img src="https://img.shields.io/badge/Watch-Demo%20Video-FF0000.svg" alt="Watch Demo Video"></a>
 </p>
 
 <p align="center">
@@ -17,10 +18,6 @@
 
 <p align="center">
   <img src="./Img/SRU_ODIN1.gif" alt="SRU Navigation Demo" width="800"/>
-</p>
-
-<p align="center">
-  🎬 <a href="https://b23.tv/8nKRBNw">Watch the full demo video</a>
 </p>
 
 ---
