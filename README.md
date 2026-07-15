@@ -1,6 +1,10 @@
 # SRU × Odin1: Mapless Navigation with Spatially-Enhanced Recurrent Memory
 
 <p align="center">
+  <img src="./Img/logo.png" alt="SRU × Odin1 Logo" width="15%">
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
   <img src="https://img.shields.io/badge/Isaac%20Sim-4.5.0-76B900.svg" alt="Isaac Sim 4.5.0">
   <img src="https://img.shields.io/badge/ROS-Noetic-22314E.svg" alt="ROS Noetic">
@@ -8,7 +12,7 @@
 </p>
 
 <p align="center">
-  <b>Deploy cutting-edge paper within half a day using Odin sensor.</b>
+  <b>Deploy cutting-edge paper within half a day using Odin1.</b>
 </p>
 
 <p align="center">
@@ -479,7 +483,13 @@ Project page: <https://michaelfyang.github.io/sru-project-website/>
 
 ---
 
-## 11. License & Acknowledgments
+## 11. Acknowledgments
+
+This project builds upon: <https://github.com/sallu-786/Go2_Isaac_ros2>
+
+---
+
+## 12. License
 
 - **Algorithm & training code** — copyright of the original SRU author team (ETH RSL);
   follows their upstream LICENSE. Files containing upstream-derived code retain their
