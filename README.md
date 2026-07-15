@@ -19,11 +19,15 @@
   <img src="./Img/SRU_ODIN1.gif" alt="SRU Navigation Demo" width="800"/>
 </p>
 
+<p align="center">
+  🎬 <a href="https://b23.tv/8nKRBNw">Watch the full demo video</a>
+</p>
+
 ---
 
 ## 1. Introduction
 
-**SRU × Odin1** brings the ETH RSL **SRU** (*Spatially-Enhanced Recurrent Memory for
+**SRU × Odin** brings the ETH RSL **SRU** (*Spatially-Enhanced Recurrent Memory for
 Long-Range Mapless Navigation via End-to-End Reinforcement Learning*) policy to a real
 quadruped using a single **Odin1** spatial-memory sensor. The original work relies on a
 **ZED-X** stereo camera for depth mapping and a **DLIO** LIO stack for high-precision
@@ -47,7 +51,8 @@ Project page: <https://michaelfyang.github.io/sru-project-website/>
 
 ### Related Work
 
-<!-- Add release notes and updates here -->
+- **[ManifoldTech Real2Sim Tutorial](https://github.com/ManifoldTechLtd/MT-Real2Sim-Tutorial)** — Transform the real world into a simulated environment using Q9000.
+- **[Odin-Nav-Stack](https://github.com/ManifoldTechLtd/Odin-Nav-Stack)** — A full-stack navigation framework based on Odin, integrating end-to-end navigation (NeuPAN), classical navigation, modular navigation, VLM, YOLO object detection, and VLN (Vision-and-Language Navigation) into a unified system.
 
 ---
 
