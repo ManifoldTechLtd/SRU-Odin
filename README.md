@@ -45,6 +45,10 @@ odometry tracking; this project collapses both of those subsystems into one comp
 End-to-End Reinforcement Learning* — DOI: <https://doi.org/10.1177/02783649251401926> ·
 Project page: <https://michaelfyang.github.io/sru-project-website/>
 
+### Related Work
+
+<!-- Add release notes and updates here -->
+
 ---
 
 ## 2. Key Features
@@ -167,6 +171,12 @@ diff -r --exclude=__pycache__ --exclude=.git \
 > When something misbehaves, focus your comparison on the critical parameters
 > (`policy_scale`, control frequency, topic names, ONNX tensor shapes) — those are the ones
 > that must match for correct behavior.
+
+> The quality of code generated via the prompt workflow may vary depending on
+> the capability of the LLM used. In some cases, the generated code may require further
+> iteration and refinement with the LLM to achieve full functionality. Always validate
+> against the `Deployment/` reference and run the acceptance checks before deploying to
+> real hardware.
 
 ---
 
