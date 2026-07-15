@@ -8,9 +8,9 @@ __pycache__/
 outputs/
 logs/
 runs/
-*.pt
-*.pth
-*.onnx
+# *.pt
+# *.pth
+# *.onnx
 
 # Environment secrets
 .env
