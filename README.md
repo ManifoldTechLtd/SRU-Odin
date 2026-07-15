@@ -9,8 +9,7 @@
   <img src="https://img.shields.io/badge/Isaac%20Sim-4.5.0-76B900.svg" alt="Isaac Sim 4.5.0">
   <img src="https://img.shields.io/badge/ROS-Noetic-22314E.svg" alt="ROS Noetic">
   <img src="https://img.shields.io/badge/Sensor-Odin1-FF6F00.svg" alt="Sensor: Odin1">
-  <a href=" https://b23.tv/8nKRBNw">
-  <img src='https://img.shields.io/badge/Video-bilibili-pink' alt='bilibili'></a> 
+  <a href="https://www.bilibili.com/video/BV1LaNq6yEpX"><img src="https://img.shields.io/badge/Video-bilibili-pink" alt="bilibili"></a>
 </p>
 
 <p align="center">
